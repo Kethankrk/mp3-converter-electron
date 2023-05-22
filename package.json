@@ -18,5 +18,16 @@
   "devDependencies": {
     "electron": "^24.3.1",
     "electron-builder": "^23.6.0"
+  },
+  "build": {
+    "appId": "com.krk.converter",
+    "productName": "mp3conveter",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    }
   }
+  
 }
