@@ -16,6 +16,9 @@ let mainWindow;
 
 const downloadOption = {
     directory: app.getPath("downloads"),
+    onProgress: (progress) => {
+        mainWindow.webContents.send("progress", progress)
+    }
 };
 
 // Create a new browser window when the app is ready
@@ -43,7 +46,6 @@ const application = async () => {
 
 ipcMain.on("input-message", async (event, value) => {
     await fetch(value);
-    await downloadFunction();
 });
 
 application();
@@ -59,23 +61,36 @@ const fetch = async (url) => {
         },
     };
     mainWindow.webContents.send("info", "Fetching...");
+    try{
+
     const response = await axios.request(options);
     mainWindow.webContents.send("info", "Fetched!");
 
     if (response.data.link) {
         link = response.data.link;
-        console.log(link);
     } else {
         await fetch(url);
         console.log("Trying again");
     }
+    }
+    catch(error){
+        mainWindow.webContents.send("info", `Something went worong!!!`);
+        return
+    }
+    await downloadFunction();
 };
 
 const downloadFunction = async () => {
     mainWindow.webContents.send("info", "Downloading...");
-    const dl = await download(mainWindow, link, downloadOption);
 
-    mainWindow.webContents.send("info", `File saved to ${dl.getSavePath()}`);
+    try{
+        const dl = await download(mainWindow, link, downloadOption);
+        mainWindow.webContents.send("info", `File saved to ${dl.getSavePath()}`);
+    }
+    catch(error){
+        mainWindow.webContents.send("info", 'Download failed!!!');
+    }
+
 };
 
 ipcMain.on("open-dir", async (event) => {
