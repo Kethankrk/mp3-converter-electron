@@ -4,6 +4,15 @@ const ipcRenderer = electron.ipcRenderer
 const inputField = document.getElementById("input-field")
 const convertBtn = document.getElementById("convert-btn")
 const infoText = document.getElementById("info")
+const dir = document.getElementById("dir")
+const dirChangeBtn = document.getElementById("dir-change")
+
+
+ipcRenderer.on("change-dir", (event, path)=> {
+    console.log("called change-dir")
+    dir.innerText = path
+})
+
 
 const navigation = (page)=>{
     window.location.href = page
@@ -20,6 +29,10 @@ convertBtn.addEventListener('click', () => {
 
 ipcRenderer.on("info", (event, value) => {
     infoText.innerText = value
+})
+
+dirChangeBtn.addEventListener('click', () => {
+    ipcRenderer.send("open-dir")
 })
 
 

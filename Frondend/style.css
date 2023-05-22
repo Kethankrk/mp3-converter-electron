@@ -1,3 +1,9 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 .heading{
     font-family: sans-serif;
     text-align: center;
@@ -23,7 +29,7 @@ body{
     border: none;
     background-color: green;
     color: white;
-    font-size: medium;
+    font-size: large;
     font-weight: bold;
 }
 
@@ -35,10 +41,22 @@ body{
     background-color: gray;
     width: 40%;
     font-weight: bold;
+    margin-top: 40px;
 }
 
 .info{
     margin-top: 50px;
     font-weight: 600;
     font-style: italic;
+}
+.cd{
+    margin-top: 5px;
+}
+#dir-change{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(190, 190, 190);
+    font-weight: bold;
+    margin-top: 5px;
 }

@@ -1,8 +1,12 @@
-const { app, BrowserWindow, webContents, ipcMain } = require('electron');
+const { app, BrowserWindow, webContents, ipcMain, dialog } = require('electron');
 const axios = require("axios")
 const { download } = require("electron-dl")
 let link
 let mainWindow
+
+const downloadOption = {
+    directory: app.getPath("downloads")
+}
 
 // Create a new browser window when the app is ready
 const application = async () => {
@@ -17,6 +21,10 @@ const application = async () => {
     })
 
     mainWindow.loadFile("Frondend/index.html")
+
+    mainWindow.webContents.on("did-finish-load", () => {
+        mainWindow.webContents.send("change-dir", downloadOption.directory)
+    })
 
     mainWindow.on("close", ()=> {
         app.quit()
@@ -57,14 +65,22 @@ const fetch = async (url) => {
 
 const downloadFunction = async () => {
     mainWindow.webContents.send("info", "Downloading...")
-    const dl = await download(mainWindow, link, {
-        directory: '/home/kethankrk'
-    })
+    const dl = await download(mainWindow, link, downloadOption)
 
     mainWindow.webContents.send("info", `File saved to ${dl.getSavePath()}`)
-
-
 }
+
+
+ipcMain.on("open-dir", async (event) => {
+    const directory = await dialog.showOpenDialog(mainWindow, {
+        properties: ['openDirectory', 'createDirectory']
+    })
+
+    if(!directory.canceled){
+        downloadOption.directory = directory.filePaths[0]
+    }
+    mainWindow.webContents.send("change-dir", downloadOption.directory)
+})
 
 
 
