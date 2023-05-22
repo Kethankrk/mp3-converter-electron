@@ -36,3 +36,9 @@ body{
     width: 40%;
     font-weight: bold;
 }
+
+.info{
+    margin-top: 50px;
+    font-weight: 600;
+    font-style: italic;
+}

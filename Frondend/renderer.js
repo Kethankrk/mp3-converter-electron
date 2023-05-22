@@ -1,8 +1,9 @@
 const electron = require("electron")
-const ipc = electron.ipcRenderer
+const ipcRenderer = electron.ipcRenderer
 
 const inputField = document.getElementById("input-field")
 const convertBtn = document.getElementById("convert-btn")
+const infoText = document.getElementById("info")
 
 const navigation = (page)=>{
     window.location.href = page
@@ -14,7 +15,11 @@ convertBtn.addEventListener('click', () => {
     let url = inputField.value
     inputField.value = ""
     console.log("lol")
-    ipc.send("input-message", url.split("=").pop())
+    ipcRenderer.send("input-message", url.split("=").pop())
+})
+
+ipcRenderer.on("info", (event, value) => {
+    infoText.innerText = value
 })
 
 
