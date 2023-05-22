@@ -9,7 +9,7 @@ const application = async () => {
 
     mainWindow.loadFile("Frondend/index.html")
 
-    mainWindow.on("close", () => {
+    mainWindow.on("close", ()=> {
         app.quit()
     })
 }
