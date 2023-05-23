@@ -22,6 +22,7 @@ const navigation = (page) => {
 console.log("js is working");
 convertBtn.addEventListener("click", () => {
     if (inputField.value === "") return;
+    percentage.innerText = ""
     let url = inputField.value;
     inputField.value = "";
     console.log("lol");

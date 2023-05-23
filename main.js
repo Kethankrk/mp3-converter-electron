@@ -51,6 +51,7 @@ ipcMain.on("input-message", async (event, value) => {
 application();
 
 const fetch = async (url) => {
+    console.log("Fetching")
     const options = {
         method: "GET",
         url: "https://youtube-mp36.p.rapidapi.com/dl",
